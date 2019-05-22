@@ -21,7 +21,7 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private double amount;
+	private double amount = 0.0;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
@@ -33,10 +33,11 @@ public class Account {
 		
 	}
 	
-	public Account(long id, double amount, String userId) {
+	public Account(long id, double amount, User user) {
 		super();
 		this.id = id;
 		this.amount = amount;
+		this.user = user;
 	}
 
 	public Long getId() {
