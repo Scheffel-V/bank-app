@@ -1,12 +1,18 @@
-package com.bankapp.user;
+package com.bankapp.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bankapp.model.User;
+import com.bankapp.repository.UserRepository;
+
 @Service
+@Transactional
 public class UserService {
 	
 	@Autowired
@@ -15,11 +21,10 @@ public class UserService {
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<User>();
 		userRepository.findAll().forEach(users::add);
-		
 		return users;
 	}
 	
-	public User getUser(String id) {
+	public User getUser(long id) {
 		return userRepository.findById(id).get();
 	}
 	
@@ -31,7 +36,7 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
-	public void deleteUser(String id) {
+	public void deleteUser(long id) {
 		userRepository.deleteById(id);;
 	}
 }
