@@ -15,8 +15,15 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "transactions")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+property = "id")
 public class Transaction {
 
 	@Id
@@ -28,6 +35,7 @@ public class Transaction {
 	
 	@ManyToOne
 	@JoinColumn(name = "origin_account_id", nullable = false)
+	@JsonBackReference
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account originAccount;
 	

@@ -1,13 +1,18 @@
 package com.bankapp.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
@@ -25,6 +30,10 @@ public class User {
 	@NotNull
 	@Size(max = 100)
 	private String password;
+	
+	@OneToMany(mappedBy = "user")
+	@JsonManagedReference
+	private List<Account> accounts;
 
 	public User() {
 		
@@ -59,6 +68,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public List<Account> getAccounts() {
+		return this.accounts;
+	}
+	
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
 	}
 	
 	public String toString() {

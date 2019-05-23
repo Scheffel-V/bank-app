@@ -2,6 +2,7 @@ package com.bankapp.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.transaction.Transactional;
 
@@ -24,7 +25,13 @@ public class TransactionService {
 		return transactions;
 	}
 	
-	public Transaction getTransactionById(long id) {
+	public List<Transaction> getAllTransactionsByAccountId(long accountId) {
+		List<Transaction> transactions = new ArrayList<Transaction>();
+		transactionRepository.findAll().forEach(transactions::add);
+		return transactions;
+	}
+	
+	public Transaction getTransaction(long id) throws NoSuchElementException {
 		return transactionRepository.findById(id).get();
 	}
 	
@@ -36,7 +43,7 @@ public class TransactionService {
 		transactionRepository.save(transaction);
 	}
 	
-	public void deleteTransaction(long id) {
-		transactionRepository.deleteById(id);
+	public void deleteTransaction(Transaction transaction) {
+		transactionRepository.delete(transaction);
 	}
 }

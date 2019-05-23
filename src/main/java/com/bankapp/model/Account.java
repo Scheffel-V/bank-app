@@ -1,17 +1,21 @@
 package com.bankapp.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "accounts")
@@ -26,8 +30,12 @@ public class Account {
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
-	private User user;	
+	@JsonBackReference
+	private User user;
+
+	@OneToMany(mappedBy = "originAccount")
+	@JsonManagedReference
+	private List<Transaction> transactions;
 
 	public Account() {
 		
@@ -62,6 +70,14 @@ public class Account {
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public List<Transaction> getTransactions() {
+		return this.transactions;
+	}
+	
+	public void setTransactions(List<Transaction> transfers) {
+		this.transactions = transfers;
 	}
 	
 	public String toString() {
