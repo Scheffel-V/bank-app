@@ -34,6 +34,11 @@ public class TransactionController {
 		return transactionService.getAllTransactions();
 	}
 	
+	@RequestMapping("/users/{userId}/accounts/{accountId}/transactions")
+	public List<Transaction> getAllTransactionsByAccountId(@PathVariable long accountId) {
+		return transactionService.getAllTransactionsByAccountId(accountId);
+	}
+	
 	@RequestMapping("/users/{userId}/accounts/{accountId}/transactions/{transactionId}")
 	public ResponseEntity<Transaction> getTransaction(@PathVariable long transactionId) {
 		try {
@@ -61,13 +66,15 @@ public class TransactionController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value ="/transactions/{transactionId}")
+	@RequestMapping(method = RequestMethod.PUT, value ="/users/{userId}/accounts/{accountId}/transactions/{transactionId}")
 	public ResponseEntity<Transaction> updateAccount(@Valid @RequestBody Transaction transactionUpdated, @PathVariable long transactionId) {
 		try {
+			Account newOriginAccount = accountService.getAccount(transactionUpdated.getOriginAccount().getId());
+			Account newDestinyAccount = accountService.getAccount(transactionUpdated.getDestinyAccount().getId());
 			Transaction transaction = transactionService.getTransaction(transactionId);
+			transaction.setOriginAccount(newOriginAccount);
+			transaction.setDestinyAccount(newDestinyAccount);
 			transaction.setAmount(transactionUpdated.getAmount());
-			transaction.setDestinyAccount(transactionUpdated.getDestinyAccount());
-			transaction.setOriginAccount(transactionUpdated.getDestinyAccount());
 			transaction.setState(transactionUpdated.getState());
 			transactionService.updateTransaction(transaction);
 			return ResponseEntity.ok(transaction);
@@ -76,7 +83,7 @@ public class TransactionController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value ="/transaction/{transactionId}")
+	@RequestMapping(method = RequestMethod.DELETE, value ="/users/{userId}/accounts/{accountId}/transactions/{transactionId}")
 	public ResponseEntity<Void> deleteTransaction(@PathVariable long transactionId) {
 		try {
 			Transaction transaction = transactionService.getTransaction(transactionId);
