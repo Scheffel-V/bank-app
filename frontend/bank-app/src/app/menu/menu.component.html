@@ -1,0 +1,20 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div>
+      <a href="" class="navbar-brand">Bank Application</a>
+    </div>
+
+    
+    <ul class="navbar-nav">
+      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/welcome/brsufirefox" class="nav-link">Home</a></li>
+      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/accounts" class="nav-link">Accounts</a></li>
+      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/transactions" class="nav-link">Transactions</a></li>
+    </ul>
+
+    <ul class="navbar-nav navbar-collapse justify-content-end">
+        <li><a *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</a></li>
+        <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
+    </ul>
+    
+  </nav>
+</header>

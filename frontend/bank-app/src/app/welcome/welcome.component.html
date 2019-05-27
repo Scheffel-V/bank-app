@@ -1,0 +1,19 @@
+<div class="container">
+    <div>
+        <h1>Welcome {{username}}!</h1>
+    </div>
+
+    <div>
+        <p>You can manage your Bank Accounts <a routerLink="/accounts">here</a>.</p>
+    </div>
+</div>
+
+<div class="container">
+    <p>Click here to get a customized welcome message:</p>
+    <button class="btn btn-dark" (click)="getWelcomeMessageWithParameter()">Get Welcome Message</button>
+</div>
+
+<div class="containter" *ngIf="welcomeMessageFromService">
+    <p>Your customized welcome message</p>
+    {{welcomeMessageFromService}}
+</div>

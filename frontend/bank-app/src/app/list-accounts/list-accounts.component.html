@@ -1,0 +1,23 @@
+<h1>My Account's</h1>
+
+<div class="alert alert-warning" *ngIf="message">{{message}}</div>
+
+<div class="container">
+  <table class="table">
+    <caption>My Accounts</caption>
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Transactions</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of accounts">
+        <td>{{account.amount}}</td>
+        <td>{{account.transactions}}</td>
+        <td><button (click)="deleteAccount(account.id)" class="btn btn-warning">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
