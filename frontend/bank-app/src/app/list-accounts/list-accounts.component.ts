@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountDataService } from '../service/data/account-data.service';
+import { Account } from '../account/account.component';
 
 
 @Component({
@@ -32,7 +33,6 @@ export class ListAccountsComponent implements OnInit {
     this.accountService.deleteAccountById(this.userId, accountId).subscribe(
       response => {
         console.log(response);
-        this.accounts = response;
         this.message = `Deleted account!`
         this.refreshAccounts()
       }

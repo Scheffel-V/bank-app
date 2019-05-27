@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Account } from '../account/account.component';
 
 
-
 export class User {
   
   constructor(
