@@ -1,0 +1,16 @@
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/controller/TransactionController.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/repository/AccountRepository.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/model/Transaction.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/repository/TransactionRepository.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/service/AccountService.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/controller/UserController.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/model/User.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/model/Account.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/basic/auth/SpringSecurityConfigurationBasicAuth.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/service/TransactionService.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/service/UserService.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/model/TransactionState.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/BankAppApplication.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/repository/UserRepository.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/controller/BasicAuthenticationController.java
+/home/scheffel/repositories/bank-app/backend/src/main/java/com/bankapp/controller/AccountController.java

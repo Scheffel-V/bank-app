@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Account } from 'src/app/account/account.component';
 
@@ -14,7 +14,12 @@ export class AccountDataService {
   ) { }
 
   getAllAccounts() : Observable<Account[]>{
-    return this.http.get<Account[]>('http://localhost:8080/accounts')
+    return this.http.get<Account[]>(
+      'http://localhost:8080/accounts',
+      { 
+        headers : this.createBasicAuthenticationHttpHeader()
+      }
+      )
   }
 
   getAllAccountsByUserId(userId : string) : Observable<Account[]> {
@@ -29,4 +34,13 @@ export class AccountDataService {
     return this.http.delete<Account>(`http://localhost:8080/users/${userId}/accounts/${accountId}`)
   }
 
+  createBasicAuthenticationHttpHeader() {
+    let username = 'brsufirefox'
+    let password = 'Bludakeia1'
+    let basicAuthHeaderString = 'Basic ' + window.btoa(username + ":" + password)
+    
+    return new HttpHeaders({
+      Authorization : basicAuthHeaderString
+    })
+  }
 }
