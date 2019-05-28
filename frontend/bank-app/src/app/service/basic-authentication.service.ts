@@ -10,12 +10,23 @@ export class BasicAuthenticationService {
 
   constructor(private http : HttpClient) { }
 
-  authenticate(username, password) {
-    if(username ==="1" && password === "Bludakeia1") {
-      sessionStorage.setItem('authenticateUser', username)
-      return true
-    }
-    return false
+  executeBasicAuthenticationService(username : string, password : string) {
+    let header = this.createBasicAuthenticationHttpHeader(username, password)
+
+    return this.http.get<User>(
+      `http://localhost:8080/basicauth`,
+      {
+        headers : header
+      }
+    ).pipe(
+      map(
+        data => {
+          sessionStorage.setItem('authenticateUser', username)
+          sessionStorage.setItem('token', header.get('Authorization'))
+          return data
+        }
+      )
+    )
   }
 
   logout() {
@@ -27,23 +38,17 @@ export class BasicAuthenticationService {
     return !(user === null)
   }
 
-  executeBasicAuthenticationService(username : string, password : string) {
-    return this.http.get<User>(
-      `http://localhost:8080/basicauth`,
-      {
-        headers : this.createBasicAuthenticationHttpHeader(username, password)
-      }
-    ).pipe(
-      map(
-        data => {
-          sessionStorage.setItem('authenticateUser', username)
-          return data
-        }
-      )
-    )
+  getAuthenticatedUser() {
+    return sessionStorage.getItem('authenticateUser')
   }
 
-  createBasicAuthenticationHttpHeader(username : string, password : string) {
+  getAuthenticatedToken() {
+    if(this.getAuthenticatedUser()) {
+      return sessionStorage.getItem('token')
+    }
+  }
+
+  private createBasicAuthenticationHttpHeader(username : string, password : string) {
     let basicAuthHeaderString = 'Basic ' + window.btoa(username + ":" + password)
     
     return new HttpHeaders({

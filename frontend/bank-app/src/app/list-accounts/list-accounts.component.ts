@@ -30,9 +30,8 @@ export class ListAccountsComponent implements OnInit {
   }
 
   deleteAccount(accountId) {
-    this.accountService.deleteAccountById(this.userId, accountId).subscribe(
+    this.accountService.deleteAccount(this.userId, accountId).subscribe(
       response => {
-        console.log(response);
         this.message = `Deleted account!`
         this.refreshAccounts()
       }

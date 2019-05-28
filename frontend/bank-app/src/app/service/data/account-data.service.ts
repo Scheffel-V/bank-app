@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Account } from 'src/app/account/account.component';
+import { API_URL } from 'src/app/app.constants';
 
 
 @Injectable({
@@ -14,33 +15,32 @@ export class AccountDataService {
   ) { }
 
   getAllAccounts() : Observable<Account[]>{
-    return this.http.get<Account[]>(
-      'http://localhost:8080/accounts',
-      { 
-        headers : this.createBasicAuthenticationHttpHeader()
-      }
-      )
+    return this.http.get<Account[]>(`${API_URL}/accounts`)
   }
 
   getAllAccountsByUserId(userId : string) : Observable<Account[]> {
-    return this.http.get<Account[]>(`http://localhost:8080/users/${userId}/accounts`)
+    return this.http.get<Account[]>(`${API_URL}/users/${userId}/accounts`)
   }
 
-  getAccountById(userId : string, accountId : string) : Observable<Account> {
-    return this.http.get<Account>(`http://localhost:8080/users/${userId}/accounts/${accountId}`)
+  getAccount(userId : string, accountId : string) : Observable<Account> {
+    return this.http.get<Account>(`${API_URL}/users/${userId}/accounts/${accountId}`)
   }
 
-  deleteAccountById(userId : string, accountId : string) : Observable<Account> {
-    return this.http.delete<Account>(`http://localhost:8080/users/${userId}/accounts/${accountId}`)
+  createAccount(username, account) : Observable<Account> {
+    return this.http.post<Account>(
+      `${API_URL}/users/username/${username}/accounts`,
+      account
+    )
   }
 
-  createBasicAuthenticationHttpHeader() {
-    let username = 'brsufirefox'
-    let password = 'Bludakeia1'
-    let basicAuthHeaderString = 'Basic ' + window.btoa(username + ":" + password)
-    
-    return new HttpHeaders({
-      Authorization : basicAuthHeaderString
-    })
+  updateAccount(username, accountId, account) : Observable<Account> {
+    return this.http.put<Account>(
+      `${API_URL}/users/username/${username}/accounts/${accountId}`,
+      account
+    )
+  }
+
+  deleteAccount(userId : string, accountId : string) : Observable<Account> {
+    return this.http.delete<Account>(`${API_URL}/users/${userId}/accounts/${accountId}`)
   }
 }
