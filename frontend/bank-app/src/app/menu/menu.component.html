@@ -6,14 +6,14 @@
 
     
     <ul class="navbar-nav">
-      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/welcome/brsufirefox" class="nav-link">Home</a></li>
-      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/accounts" class="nav-link">Accounts</a></li>
-      <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/transactions" class="nav-link">Transactions</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/brsufirefox" class="nav-link">Home</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/accounts" class="nav-link">Accounts</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/transactions" class="nav-link">Transactions</a></li>
     </ul>
 
     <ul class="navbar-nav navbar-collapse justify-content-end">
-        <li><a *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</a></li>
-        <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
+        <li><a *ngIf="!basicAuthenticationService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</a></li>
+        <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
     </ul>
     
   </nav>

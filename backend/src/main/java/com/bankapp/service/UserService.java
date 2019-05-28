@@ -29,6 +29,16 @@ public class UserService {
 		return userRepository.findById(id).get();
 	}
 	
+	public User getUserByUsername(String username) throws NoSuchElementException {
+		User user = userRepository.findByUsername(username);
+		System.out.println(user);
+		if(user != null) {
+			return user;
+		} else {
+			throw new NoSuchElementException();
+		}
+	}
+	
 	public void addUser(User user) {
 		userRepository.save(user);
 	}
