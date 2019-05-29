@@ -1,6 +1,7 @@
 package com.bankapp.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.bankapp.model.Account;
 import com.bankapp.model.User;
 import com.bankapp.service.UserService;
 
@@ -47,6 +49,9 @@ public class UserController {
 
 	@PostMapping("/users")
 	public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
+		if(user.getAccounts() == null) {
+			user.setAccounts(new ArrayList<Account>());
+		}
 		userService.addUser(user);
 		URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

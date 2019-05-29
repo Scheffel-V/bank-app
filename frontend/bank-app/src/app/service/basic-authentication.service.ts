@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../user/user.component';
-import { AUTHENTICATED_USER, AUTHENTICATED_TOKEN, API_URL } from '../app.constants';
+import { AUTHENTICATED_USER, AUTHENTICATED_TOKEN, API_URL, AUTHENTICATION_URL } from '../app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class BasicAuthenticationService {
     let header = this.createBasicAuthenticationHttpHeader(username, password)
 
     return this.http.post<any>(
-      `${API_URL}/authenticate`,
+      AUTHENTICATION_URL,
       {
         username,
         password
@@ -25,9 +25,6 @@ export class BasicAuthenticationService {
         data => {
           sessionStorage.setItem(AUTHENTICATED_USER, username)
           sessionStorage.setItem(AUTHENTICATED_TOKEN, `Bearer ${data.token}`)
-          console.log(sessionStorage.getItem(AUTHENTICATED_TOKEN))
-          console.log("DATA::::::::")
-          console.log(data)
           return data
         }
       )

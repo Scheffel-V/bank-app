@@ -30,11 +30,9 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	  System.out.println("TO AQUI!!!!!!!!!");
 	try {
-		System.out.println(username);
 		User userData = userService.getUserByUsername(username);
-		System.out.println(userData);
+	
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		JwtUserDetails userDetails = new JwtUserDetails(userData.getId(), userData.getUsername(), encoder.encode(userData.getPassword()), "ROLE_USER_2");
 		return userDetails;
