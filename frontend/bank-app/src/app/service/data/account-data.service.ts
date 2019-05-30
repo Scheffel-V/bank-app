@@ -28,14 +28,14 @@ export class AccountDataService {
 
   createAccount(username, account) : Observable<Account> {
     return this.http.post<Account>(
-      `${API_URL}/users/username/${username}/accounts`,
+      `${API_URL}/users/${username}/accounts`,
       account
     )
   }
 
   updateAccount(username, accountId, account) : Observable<Account> {
     return this.http.put<Account>(
-      `${API_URL}/users/username/${username}/accounts/${accountId}`,
+      `${API_URL}/users/${username}/accounts/${accountId}`,
       account
     )
   }

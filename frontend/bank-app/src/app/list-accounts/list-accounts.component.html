@@ -9,15 +9,18 @@
       <tr>
         <th>Amount</th>
         <th>Transactions</th>
-        <th>Actions</th>
+        <th style="width: 10%">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let account of accounts">
         <td>{{account.amount}}</td>
-        <td>{{account.transactions}}</td>
+        <td><button class="btn btn-success" (click)="viewAccountTransactions(account.id)">View transactions</button></td>
         <td><button (click)="deleteAccount(account.id)" class="btn btn-warning">Delete</button></td>
+        <td><button (click)="updateAccount(account.id)" class="btn btn-success">Update</button></td>
       </tr>
     </tbody>
   </table>
+  <br>
+  <button class="btn btn-success" (click)="createAccount()">Add</button>
 </div>

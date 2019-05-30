@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bankapp.jwt.JwtTokenUtil;
 import com.bankapp.jwt.JwtUserDetails;
+import com.bankapp.model.User;
+import com.bankapp.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin
@@ -33,6 +37,9 @@ public class JwtAuthenticationRestController {
 
   @Autowired
   private AuthenticationManager authenticationManager;
+  
+  @Autowired
+  private UserService userService;
 
   @Autowired
   private JwtTokenUtil jwtTokenUtil;
@@ -42,14 +49,16 @@ public class JwtAuthenticationRestController {
 
   @RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
-      throws AuthenticationException {
+      throws AuthenticationException, JsonProcessingException {
+	ObjectMapper mapper = new ObjectMapper();
     authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
     final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
     final String token = jwtTokenUtil.generateToken(userDetails);
-
-    return ResponseEntity.ok(new JwtTokenResponse(token));
+    User user = this.userService.getUserByUsername(authenticationRequest.getUsername());
+    System.out.println("\n\n\n\n\n\n\n\nMANDANDO O TOKEN PORRA");
+    return ResponseEntity.ok("[{\"token\":\"" + token + "\"}," + mapper.writeValueAsString(user) + "]");
   }
 
   @RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)

@@ -1,3 +1,18 @@
-<p>
-  transaction works!
-</p>
+<div class="container">
+    <h1>Transaction</h1>
+    <div class="alert alert-warning" *ngIf="transactioForm.dirty && transactionForm.invalid">Enter valid values.</div>
+  
+    <form (ngSubmit)="!transactonForm.invalid && saveTransaction()" #transactionForm="ngForm">
+      <fieldset class="form-group">
+        <label for="amount">Amount</label>
+        <input type="text" [(ngModel)]="transaction.amount" class="form-control" name="amount" required="required">
+      </fieldset>
+
+      <fieldset class="form-group">
+          <label for="destinyAccount">Destiny Account</label>
+          <input type="text" [(ngModel)]="destinyAccountId" class="form-control" name="destinyAccount" required="required">
+      </fieldset>
+
+      <button type="submit" class="btn btn-success">Save Transaction</button>
+    </form>
+  </div>

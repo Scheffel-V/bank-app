@@ -16,6 +16,7 @@ import { UserComponent } from './user/user.component';
 import { AccountComponent } from './account/account.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { HttpIntercepterBasicAuthService } from './service/http/http-intercepter-basic-auth.service';
+import { ListTransactionsComponent } from './list-transactions/list-transactions.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { HttpIntercepterBasicAuthService } from './service/http/http-intercepter
     LogoutComponent,
     UserComponent,
     AccountComponent,
-    TransactionComponent
+    TransactionComponent,
+    ListTransactionsComponent
   ],
   imports: [
     BrowserModule,

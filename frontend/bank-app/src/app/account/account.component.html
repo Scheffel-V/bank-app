@@ -1,3 +1,34 @@
-<p>
-  account works!
-</p>
+<div class="container">
+  <h1>Account</h1>
+  <div class="alert alert-warning" *ngIf="accountForm.dirty && accountForm.invalid">Enter valid values.</div>
+
+  <form (ngSubmit)="!accountForm.invalid && saveAccount()" #accountForm="ngForm">
+    <fieldset class="form-group">
+      <label for="amount">Amount</label>
+      <input type="text" [(ngModel)]="account.amount" class="form-control" name="amount" required="required">
+    </fieldset>
+
+
+    <p>Transactions</p>
+    <td><button (click)="createTransaction()" class="btn btn-success">Create new Transaction</button></td>
+    <br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 10%">Amount</th>
+            <th style="width: 10%">Destiny Account</th>
+            <th style="width: 10%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions">
+            <td>{{transaction.amount}}</td>
+            <td>{{transaction.originAccount}}</td>
+            <td><button (click)="deleteTransaction(transaction.id)" class="btn btn-warning">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+    <button type="submit" class="btn btn-success">Save Account</button>
+  </form>
+</div>
