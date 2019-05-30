@@ -26,8 +26,6 @@ export class BasicAuthenticationService {
           sessionStorage.setItem(AUTHENTICATED_USER_USERNAME, username)
           sessionStorage.setItem(AUTHENTICATED_USER_ID, `${data[1].id}`)
           sessionStorage.setItem(AUTHENTICATED_TOKEN, `Bearer ${data[0].token}`)
-          console.log(`${data[1].id}`)
-          console.log(`${data[0].token}`)
           return data
         }
       )

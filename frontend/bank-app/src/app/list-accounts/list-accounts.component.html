@@ -4,18 +4,19 @@
 
 <div class="container">
   <table class="table">
-    <caption>My Accounts</caption>
     <thead>
       <tr>
-        <th>Amount</th>
-        <th>Transactions</th>
+        <th style="width: 10%">Id</th>
+        <th style="width: 10%">Amount</th>
+        <th style="width: 20%">Transactions</th>
         <th style="width: 10%">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let account of accounts">
+        <td>{{account.id}}</td>
         <td>{{account.amount}}</td>
-        <td><button class="btn btn-success" (click)="viewAccountTransactions(account.id)">View transactions</button></td>
+        <td><button class="btn btn-dark" (click)="viewAccountTransactions(account.id)">View transactions</button></td>
         <td><button (click)="deleteAccount(account.id)" class="btn btn-warning">Delete</button></td>
         <td><button (click)="updateAccount(account.id)" class="btn btn-success">Update</button></td>
       </tr>

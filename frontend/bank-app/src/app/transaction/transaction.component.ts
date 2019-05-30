@@ -13,7 +13,8 @@ export class Transaction {
     public id : number,
     public amount : number,
     public originAccount : Account,
-    public destinyAccount : Account
+    public destinyAccount : Account,
+    public state : string
   ) {
 
   }
@@ -28,8 +29,10 @@ export class Transaction {
 export class TransactionComponent implements OnInit {
 
   id : string
+  accounts : Account[]
   transaction : Transaction
   destinyAccountId : string
+  selectedValue : string
 
   constructor(
     private accountService : AccountDataService,
@@ -41,8 +44,13 @@ export class TransactionComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.accountService.getAllAccounts().subscribe(
+      data => {
+        this.accounts = data
+      }
+    )
     this.id = this.activatedRoute.snapshot.params['transactionId']
-    this.transaction = new Transaction(+this.id, 0, new Account(0, 0, []), new Account(0, 0, []))
+    this.transaction = new Transaction(+this.id, 0, new Account(0, 0, []), new Account(0, 0, []), "STARTED")
 
     if(+this.id != -1) {
       this.transactionService.getTransaction(
@@ -58,6 +66,8 @@ export class TransactionComponent implements OnInit {
   }
 
   saveTransaction() {
+    console.log(this.selectedValue)
+    this.transaction.destinyAccount.id = +this.selectedValue
     if(+this.id == -1) {
       this.transactionService.createTransaction(
         this.basicAuthService.getAuthenticatedUserId(),

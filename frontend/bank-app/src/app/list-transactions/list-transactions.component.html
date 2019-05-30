@@ -1,3 +1,30 @@
-<p>
-  list-transactions works!
-</p>
+<h1>Account {{account.id}} Transactions</h1>
+
+<div class="alert alert-warning" *ngIf="message">{{message}}</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">Id</th>
+        <th style="width: 20%">Amount</th>
+        <th style="width: 20%">Destiny Account</th>
+        <th style="width: 20%">State</th>
+        <th style="width: 10%">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{transaction.id}}</td>
+        <td>{{transaction.amount}}</td>
+        <td>{{transaction.destinyAccount.id}}</td>
+        <td>{{transaction.state}}</td>
+        <td><button (click)="deleteTransaction(transaction.id)" class="btn btn-warning">Delete</button></td>
+        <td><button (click)="updateTransaction(transaction.id)" class="btn btn-success">Update</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button class="btn btn-success" (click)="createTransaction()">Add</button>
+  <button class="btn btn-dark" style="margin-left: 10px !important;" (click)="backPage()">Back Page</button>
+</div>

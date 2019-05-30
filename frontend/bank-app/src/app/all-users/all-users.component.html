@@ -1,0 +1,28 @@
+<h1>All System Users</h1>
+<div class="alert alert-warning" *ngIf="message">{{message}}</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">User Id</th>
+        <th style="width: 10%">Username</th>
+        <th style="width: 20%">Password</th>
+        <th style="width: 20%">Accounts</th> 
+        <th style="width: 10%">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.password}}</td>
+        <td><button class="btn btn-dark" (click)="viewAccounts(user.id)">View Accounts</button></td>
+        <td><button (click)="deleteUser(user.id)" class="btn btn-warning">Delete</button></td>
+        <td><button (click)="updateUser(user.id)" class="btn btn-success">Update</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button class="btn btn-success" (click)="createUser()">Add</button>
+</div>

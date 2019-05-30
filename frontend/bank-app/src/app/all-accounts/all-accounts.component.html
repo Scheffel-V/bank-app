@@ -1,0 +1,28 @@
+<h1 *ngIf="id == -1">All System Accounts</h1>
+<h1 *ngIf="id != -1">User {{id}} Accounts</h1>
+
+<div class="alert alert-warning" *ngIf="message">{{message}}</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">User Id</th>
+        <th style="width: 10%">Account Id</th>
+        <th style="width: 10%">Amount</th>
+        <th style="width: 20%">Transactions</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let userId of usersAccounts.keys()">
+        <tr *ngFor="let account of usersAccounts.get(userId)">
+          <td>{{userId}}</td>
+          <td>{{account.id}}</td>
+          <td>{{account.amount}}</td>
+          <td><button class="btn btn-dark" (click)="viewTransactions(userId, account.id)">View Transactions</button></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <button *ngIf="id != -1" class="btn btn-dark" (click)="backPage()">Back Page</button>
+</div>

@@ -7,8 +7,10 @@
     
     <ul class="navbar-nav">
       <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/welcome/brsufirefox" class="nav-link">Home</a></li>
-      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/my_accounts" class="nav-link">Accounts</a></li>
-      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/my_transactions" class="nav-link">Transactions</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/my_accounts" class="nav-link">My Accounts</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/all_users" class="nav-link">All Users</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/all_accounts" class="nav-link">All Accounts</a></li>
+      <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/all_transactions" class="nav-link">All Transactions</a></li>
     </ul>
 
     <ul class="navbar-nav navbar-collapse justify-content-end">

@@ -17,6 +17,10 @@ import { AccountComponent } from './account/account.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { HttpIntercepterBasicAuthService } from './service/http/http-intercepter-basic-auth.service';
 import { ListTransactionsComponent } from './list-transactions/list-transactions.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+import { AllAccountsComponent } from './all-accounts/all-accounts.component';
+import { AllTransactionsComponent } from './all-transactions/all-transactions.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { ListTransactionsComponent } from './list-transactions/list-transactions
     UserComponent,
     AccountComponent,
     TransactionComponent,
-    ListTransactionsComponent
+    ListTransactionsComponent,
+    AllUsersComponent,
+    AllAccountsComponent,
+    AllTransactionsComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,

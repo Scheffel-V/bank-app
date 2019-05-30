@@ -50,4 +50,8 @@ export class ListAccountsComponent implements OnInit {
     this.router.navigate(['my_accounts', -1])
   }
 
+  viewAccountTransactions(accountId : string) {
+    this.router.navigate(['my_accounts', accountId, 'my_transactions'])
+  }
+
 }

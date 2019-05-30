@@ -9,6 +9,10 @@ import { RouteGuardService } from './service/route-guard.service';
 import { AccountComponent } from './account/account.component';
 import { ListTransactionsComponent } from './list-transactions/list-transactions.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+import { AllAccountsComponent } from './all-accounts/all-accounts.component';
+import { AllTransactionsComponent } from './all-transactions/all-transactions.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,6 +22,12 @@ const routes: Routes = [
   { path: 'my_accounts/:accountId', component: AccountComponent, canActivate:[RouteGuardService] },
   { path: 'my_accounts/:accountId/my_transactions', component: ListTransactionsComponent, canActivate:[RouteGuardService] },
   { path: 'my_accounts/:accountId/my_transactions/:transactionId', component: TransactionComponent, canActivate:[RouteGuardService] },
+  { path: 'all_users', component: AllUsersComponent, canActivate:[RouteGuardService]},
+  { path: 'all_accounts', component: AllAccountsComponent, canActivate:[RouteGuardService]},
+  { path: 'all_accounts/:userId', component: AllAccountsComponent, canActivate:[RouteGuardService]},
+  { path: 'all_transactions', component: AllTransactionsComponent, canActivate:[RouteGuardService]},
+  { path: 'all_transactions/:userId/:accountId', component: AllTransactionsComponent, canActivate:[RouteGuardService]},
+  { path: 'sign_in', component: SignInComponent, canActivate:[RouteGuardService]},
   { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService]},
   { path: '**', component: ErrorComponent }
 ];

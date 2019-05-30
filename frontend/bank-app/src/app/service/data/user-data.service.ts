@@ -14,13 +14,13 @@ export class UserDataService {
   ) { }
 
   getAllUsers() {
-    return this.http.get<User>(
+    return this.http.get<User[]>(
       `${API_URL}/users`
     )
   }
 
   getUser(userId : string) {
-    return this.http.get<User[]>(`${API_URL}/users/${userId}`)
+    return this.http.get<User>(`${API_URL}/users/${userId}`)
   }
 
   createUser(user : User) : Observable<User> {

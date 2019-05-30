@@ -26,11 +26,12 @@ export class AccountComponent implements OnInit {
 
   id : string
   account : Account
-  transactions : Transaction[]
+  message : string
 
   constructor(
     private accountService : AccountDataService,
     private basicAuthService : BasicAuthenticationService,
+    private transactionService : TransactionDataService,
     private activatedRoute : ActivatedRoute,
     private router : Router,
     private location : Location
@@ -47,7 +48,6 @@ export class AccountComponent implements OnInit {
         ).subscribe(
           data => {
             this.account = data
-            this.transactions = this.account.transactions
           }
         )
     }
@@ -76,8 +76,19 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  createTransaction() {
-    this.router.navigate(['my_accounts', this.id, 'my_transactions', -1])
+  deleteAccount() {
+    this.accountService.deleteAccount(this.basicAuthService.getAuthenticatedUserId(), this.account.id + "").subscribe(
+      response => {
+
+      }
+    )
   }
 
+  viewTransactions() {
+    this.router.navigate(['my_accounts', this.account.id, 'my_transactions'])
+  }
+
+  backPage() {
+    this.location.back()
+  }
 }

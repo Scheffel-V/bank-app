@@ -14,7 +14,7 @@ export class TransactionDataService {
     private http : HttpClient
   ) { }
 
-  getAllTranscations() : Observable<Transaction[]> {
+  getAllTransactions() : Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${API_URL}/transactions`)
   }
 
@@ -26,9 +26,9 @@ export class TransactionDataService {
     return this.http.get<Transaction>(`${API_URL}/users/${userId}/accounts/${accountId}/transactions/${transactionId}`)
   }
 
-  createTransaction(userId : string, accountId : string, transaction : Transaction) : Observable<Transaction> {
+  createTransaction(userId : string, originAccountId : string, transaction : Transaction) : Observable<Transaction> {
     return this.http.post<Transaction>(
-      `${API_URL}/users/${userId}/accounts/${accountId}/transactions`,
+      `${API_URL}/users/${userId}/accounts/${originAccountId}/transactions`,
       transaction
     )
   }
