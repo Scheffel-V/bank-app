@@ -76,9 +76,7 @@ public class AccountController {
 	public ResponseEntity<Account> updateAccount(@Valid @RequestBody Account accountUpdated, @PathVariable long accountId) {
 		try {
 			Account account = accountService.getAccount(accountId);
-			User user = userService.getUser(accountUpdated.getUser().getId());
 			account.setAmount(accountUpdated.getAmount());
-			account.setUser(user);
 			accountService.updateAccount(account);
 	        return ResponseEntity.ok(account);
 		} catch(NoSuchElementException expcetion) {

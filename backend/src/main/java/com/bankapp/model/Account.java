@@ -14,13 +14,18 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.bankapp.View;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "accounts")
 public class Account {
 
+	@JsonView(View.Summary.class)
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,7 +39,7 @@ public class Account {
 	private User user;
 
 	@OneToMany(mappedBy = "originAccount")
-	@JsonManagedReference
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Transaction> transactions;
 
 	public Account() {

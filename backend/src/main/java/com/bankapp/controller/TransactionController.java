@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.bankapp.View;
 import com.bankapp.model.Account;
 import com.bankapp.model.Transaction;
 import com.bankapp.service.AccountService;
 import com.bankapp.service.TransactionService;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @CrossOrigin
 @RestController
@@ -35,16 +39,20 @@ public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;
 	
+	
+	@JsonView(View.Summary.class)
 	@GetMapping("/transactions")
 	public List<Transaction> getAllTransactions() {
 		return transactionService.getAllTransactions();
 	}
 	
+	@JsonView(View.Summary.class)
 	@GetMapping("/users/{userId}/accounts/{accountId}/transactions")
 	public List<Transaction> getAllTransactionsByAccountId(@PathVariable long accountId) {
 		return transactionService.getAllTransactionsByAccountId(accountId);
 	}
 	
+	@JsonView(View.Summary.class)
 	@GetMapping("/users/{userId}/accounts/{accountId}/transactions/{transactionId}")
 	public ResponseEntity<Transaction> getTransaction(@PathVariable long transactionId) {
 		try {
@@ -60,6 +68,10 @@ public class TransactionController {
 		try {
 			Account originAccount = accountService.getAccount(accountId);
 			transaction.setOriginAccount(originAccount);
+			Account destinyAccount = accountService.getAccount(transaction.getDestinyAccount().getId());
+			if(originAccount.getId().equals(destinyAccount.getId())) {
+				return ResponseEntity.notFound().build();
+			}
 			transactionService.addTransaction(transaction);
 			URI location = ServletUriComponentsBuilder
 	                .fromCurrentRequest()
@@ -73,12 +85,10 @@ public class TransactionController {
 	}
 	
 	@PutMapping("/users/{userId}/accounts/{accountId}/transactions/{transactionId}")
-	public ResponseEntity<Transaction> updateAccount(@Valid @RequestBody Transaction transactionUpdated, @PathVariable long transactionId) {
+	public ResponseEntity<Transaction> updateTransaction(@Valid @RequestBody Transaction transactionUpdated, @PathVariable long transactionId) {
 		try {
-			Account newOriginAccount = accountService.getAccount(transactionUpdated.getOriginAccount().getId());
 			Account newDestinyAccount = accountService.getAccount(transactionUpdated.getDestinyAccount().getId());
 			Transaction transaction = transactionService.getTransaction(transactionId);
-			transaction.setOriginAccount(newOriginAccount);
 			transaction.setDestinyAccount(newDestinyAccount);
 			transaction.setAmount(transactionUpdated.getAmount());
 			transaction.setState(transactionUpdated.getState());

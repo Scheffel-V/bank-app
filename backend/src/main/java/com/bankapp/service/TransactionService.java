@@ -9,7 +9,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bankapp.model.Account;
 import com.bankapp.model.Transaction;
+import com.bankapp.repository.AccountRepository;
 import com.bankapp.repository.TransactionRepository;
 
 @Service
@@ -19,15 +21,25 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
+	@Autowired
+	private AccountRepository accountRepository;
+	
 	public List<Transaction> getAllTransactions() {
+		List<Account> accounts = new ArrayList<Account>();
 		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactionRepository.findAll().forEach(transactions::add);
+		accountRepository.findAll().forEach(accounts::add);
+		for(Account account : accounts) {
+			for(Transaction transaction : account.getTransactions()) {
+				transactions.add(transaction);
+			}
+		}
 		return transactions;
 	}
 	
 	public List<Transaction> getAllTransactionsByAccountId(long accountId) {
 		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactionRepository.findAll().forEach(transactions::add);
+		transactionRepository.findByOriginAccountId(accountId).forEach(transactions::add);
+		
 		return transactions;
 	}
 	

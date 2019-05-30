@@ -15,8 +15,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.bankapp.View;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -25,24 +27,26 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 property = "id")
 public class Transaction {
 
+	@JsonView(View.Summary.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@JsonView(View.Summary.class)
 	@NotNull
 	private double amount;
 	
+	@JsonView(View.Summary.class)
 	@ManyToOne
 	@JoinColumn(name = "origin_account_id", nullable = false)
-	@JsonBackReference
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account originAccount;
 	
+	@JsonView(View.Summary.class)
 	@ManyToOne
 	@JoinColumn(name = "destiny_account_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private Account destinyAccount;
 
+	@JsonView(View.Summary.class)
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10)
 	private TransactionState state = TransactionState.STARTED;
@@ -99,5 +103,9 @@ public class Transaction {
 	
 	public void setState(TransactionState state) {
 		this.state = state;
+	}
+	
+	public String toString() {
+		return "ID:" + this.id + " AMOUNT:" + this.amount + " ORIGIN ACCOUNT ID:" + this.getOriginAccount().getId() + "DESTINY ACCOUNT ID:" + this.getDestinyAccount().getId();
 	}
 }
