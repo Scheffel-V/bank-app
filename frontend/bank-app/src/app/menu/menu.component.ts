@@ -13,4 +13,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
   }
 
+  getBasicAuthService() {
+    return this.basicAuthenticationService
+  }
 }

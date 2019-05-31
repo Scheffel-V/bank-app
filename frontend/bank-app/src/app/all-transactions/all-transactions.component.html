@@ -1,5 +1,5 @@
-<h1 *ngIf="accountId == -1">All System Transactions</h1>
-<h1 *ngIf="accountId != -1">Account {{accountId}} Transactions</h1>
+<h1 *ngIf="accountId == -1 + ''">All System Transactions</h1>
+<h1 *ngIf="accountId != -1 + ''">Account {{accountId}} Transactions</h1>
 
 <div class="alert alert-warning" *ngIf="message">{{message}}</div>
 
@@ -35,5 +35,5 @@
     </tbody>
   </table>
 
-  <button *ngIf="accountId != -1" class="btn btn-dark" (click)="backPage()">Back Page</button>
+  <button *ngIf="accountId != -1 + ''" class="btn btn-dark" (click)="backPage()">Back Page</button>
 </div>

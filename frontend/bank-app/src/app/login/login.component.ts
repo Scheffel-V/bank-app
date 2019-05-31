@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   user : User = new User(-1, "", "", [])
   invalidLoginMessage : string = "Invalid username or password"
   invalidLogin = false
+  message : string
   
   constructor(
     private router : Router,
