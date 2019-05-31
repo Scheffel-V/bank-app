@@ -5,18 +5,19 @@
     <form (ngSubmit)="!transactionForm.invalid && saveTransaction()" #transactionForm="ngForm">
       <fieldset class="form-group">
         <label for="amount">Amount</label>
-        <input type="number" [(ngModel)]="transaction.amount" class="form-control" name="amount" required="required">
+        <input style="width: 30%;" type="number" [(ngModel)]="transaction.amount" class="form-control" name="amount" required="required">
       </fieldset>
 
       <fieldset class="form-group">
           <label for="destinyAccount">Destiny Account</label>
-          <select [(ngModel)]="selectedValue" class="form-control" id="destinyAccount" name="destinyAccount">
+          <select style="width: 30%;" [(ngModel)]="selectedValue" class="form-control" id="destinyAccount" name="destinyAccount">
               <option *ngFor="let account of accounts" [ngValue]="account.id">
-                {{account.id}}
+                  {{account.id}}
               </option>
           </select>
       </fieldset>
 
       <button type="submit" class="btn btn-success">Save Transaction</button>
+      <button style="margin-left: 10px;" class="btn btn-dark" (click)="backPage()">Back Page</button>
     </form>
   </div>

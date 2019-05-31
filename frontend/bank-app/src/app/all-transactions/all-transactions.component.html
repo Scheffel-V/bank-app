@@ -7,6 +7,8 @@
   <table class="table">
     <thead>
       <tr>
+        <th style="width: 10%">User Id</th>
+        <th style="width: 10%">Account Id</th>
         <th style="width: 10%">Transaction Id</th>
         <th style="width: 10%">Amount</th>
         <th style="width: 10%">State</th>
@@ -16,14 +18,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let transaction of transactions">
-        <td>{{transaction.id}}</td>
-        <td>{{transaction.amount}}</td>
-        <td>{{transaction.state}}</td>
-        <td>{{transaction.originAccount.id}}</td>
-        <td>{{transaction.destinyAccount.id}}</td>
-        <td><button class="btn btn-success" (click)="finalizeTransactions(transaction.id)">Finalize</button></td>
-        </tr>
+      <ng-container *ngFor="let userId of usersAccounts.keys()">
+        <ng-container *ngFor="let account of usersAccounts.get(userId)">
+          <tr *ngFor="let transaction of accountsTransactions.get(account.id)">
+            <td>{{userId}}</td>
+            <td>{{account.id}}</td>
+            <td>{{transaction.id}}</td>
+            <td>{{transaction.amount}}</td>
+            <td>{{transaction.state}}</td>
+            <td>{{transaction.originAccount.id}}</td>
+            <td>{{transaction.destinyAccount.id}}</td>
+            <td><button *ngIf="transaction.state == 'STARTED'"class="btn btn-success" (click)="finalizeTransaction(userId, account, transaction)">Finalize</button></td>
+          </tr>
+        </ng-container>
+      </ng-container>
     </tbody>
   </table>
 

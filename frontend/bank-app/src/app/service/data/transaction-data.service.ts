@@ -43,5 +43,4 @@ export class TransactionDataService {
   deleteTransaction(userId : string, accountId : string, transactionId : string) {
     return this.http.delete(`${API_URL}/users/${userId}/accounts/${accountId}/transactions/${transactionId}`)
   }
-
 }

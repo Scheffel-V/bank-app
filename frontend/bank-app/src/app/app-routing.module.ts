@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'all_accounts/:userId', component: AllAccountsComponent, canActivate:[RouteGuardService]},
   { path: 'all_transactions', component: AllTransactionsComponent, canActivate:[RouteGuardService]},
   { path: 'all_transactions/:userId/:accountId', component: AllTransactionsComponent, canActivate:[RouteGuardService]},
-  { path: 'sign_in', component: SignInComponent, canActivate:[RouteGuardService]},
+  { path: 'sign_in', component: SignInComponent },
   { path: 'logout', component: LogoutComponent, canActivate:[RouteGuardService]},
   { path: '**', component: ErrorComponent }
 ];

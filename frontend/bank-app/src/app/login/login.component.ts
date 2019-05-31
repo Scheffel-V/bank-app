@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from '../service/basic-authentication.service';
+import { User } from '../user/user.component';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,7 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 })
 export class LoginComponent implements OnInit {
 
-  username : string = ""
-  password : string = ""
+  user : User = new User(-1, "", "", [])
   invalidLoginMessage : string = "Invalid username or password"
   invalidLogin = false
   
@@ -23,15 +23,18 @@ export class LoginComponent implements OnInit {
   }
 
   handleBasicAuthLogin() {
-    this.basicAuthenticationService.executeJWTAuthenticationService(this.username, this.password).subscribe(
+    this.basicAuthenticationService.executeJWTAuthenticationService(this.user.username, this.user.password).subscribe(
       data => {
-        this.router.navigate(['welcome', this.username])
+        this.router.navigate(['welcome', this.user.username])
         this.invalidLogin = false
       },
       error => {
         this.invalidLogin = true
-        console.log(error)
       }
     )
+  }
+
+  goToSignInPage() {
+    this.router.navigate(['sign_in'])
   }
 }

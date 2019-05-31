@@ -6,7 +6,7 @@
   <form (ngSubmit)="!accountForm.invalid && saveAccount()" #accountForm="ngForm">
     <fieldset class="form-group">
       <label for="amount">Amount</label>
-      <input type="text" [(ngModel)]="account.amount" class="form-control" name="amount" required="required">
+      <input style="width: 30%;" type="text" [(ngModel)]="account.amount" class="form-control" name="amount" required="required">
     </fieldset>
 
     <button type="submit" class="btn btn-success">Save Account</button>

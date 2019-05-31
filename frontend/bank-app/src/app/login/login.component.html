@@ -1,11 +1,25 @@
-<h1>Login</h1>
-
 <div class="container">
-  <div class="alert alert-warning" *ngIf="invalidLogin">{{invalidLoginMessage}}</div>
-
-  <div>
-    User Name : <input type="text" name="username" [(ngModel)]="username">
-    Password : <input type="password" name="password" [(ngModel)]="password">
-    <button class="btn btn-success" (click)="handleBasicAuthLogin()">Login</button>
+    <h1>Login</h1>
+    <div class="alert alert-warning" *ngIf="message">{{message}}</div>
+    <div class="alert alert-warning" *ngIf="invalidLogin">{{invalidLoginMessage}}</div>
+  
+    <form (ngSubmit)="!userForm.invalid && handleBasicAuthLogin()" #userForm="ngForm">
+        <fieldset class="form-group">
+            <input style="width: 30%;" type="text" [(ngModel)]="user.username" class="form-control" name="username" required="required" #username="ngModel" placeholder="Username">
+            <div *ngIf="username.invalid && (userForm.submitted || username.touched)" class="alert alert-danger">
+              <div *ngIf="username.errors.required">Username is required.</div>
+            </div>
+          </fieldset>
+    
+    
+          <div class="form-group">
+              <input style="width: 30%;" type="password" [(ngModel)]="user.password" name="password" placeholder="Password" class="form-control" required #password="ngModel"/>
+              <div *ngIf="password.invalid && (userForm.submitted || password.touched)" class="alert alert-danger">
+                <div *ngIf="password.errors.required"> Password is required. </div>
+              </div>
+             </div>
+  
+      <button type="submit" class="btn btn-success">Login</button>
+      <button style="margin-left: 10px;" class="btn btn-dark" (click)="goToSignInPage()">Create User</button>
+    </form>
   </div>
-</div>

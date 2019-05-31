@@ -15,6 +15,7 @@ export class SignInComponent implements OnInit {
 
 
   id : string = "-1"
+  confirmPassword : string = ""
   user : User
   message : string
 

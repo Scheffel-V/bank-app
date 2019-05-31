@@ -1,22 +1,34 @@
 <div class="container">
     <h1>User</h1>
     <div class="alert alert-warning" *ngIf="message">{{message}}</div>
-    <div class="alert alert-warning" *ngIf="userForm.dirty && userForm.invalid">Enter valid values.</div>
   
     <form (ngSubmit)="!userForm.invalid && saveUser()" #userForm="ngForm">
       <fieldset class="form-group">
-        <label for="username">Username</label>
-        <input type="text" [(ngModel)]="user.username" class="form-control" name="username" required="required">
+        <input style="width: 30%;" type="text" [(ngModel)]="user.username" class="form-control" name="username" required="required" #username="ngModel" placeholder="Username">
+        <div *ngIf="username.invalid && (userForm.submitted || username.touched)" class="alert alert-danger">
+          <div *ngIf="username.errors.required">Username is required.</div>
+        </div>
       </fieldset>
 
-      <fieldset class="form-group">
-          <label for="password">Password</label>
-          <input type="password" [(ngModel)]="user.password" class="form-control" name="username" required="required">
-        </fieldset>
-  
+
+      <div class="form-group">
+          <input style="width: 30%;" type="password" [(ngModel)]="user.password" name="password" placeholder="Password" class="form-control" required #password="ngModel" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" />
+          <div *ngIf="password.invalid && (userForm.submitted || password.touched)" class="alert alert-danger">
+            <div *ngIf="password.errors.required"> Password is required. </div>
+            <div *ngIf="password.errors.pattern"> Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters.</div>
+          </div>
+         </div>
+         
+         <div class="form-group">
+          <input style="width: 30%;" type="password" [(ngModel)]="confirmPassword" name="confirmpassword" placeholder="Confirm Password" class="form-control" required #confirmpassword="ngModel" pattern="{{ password.value }}" />
+          <div *ngIf=" confirmpassword.invalid && (userForm.submitted || confirmpassword.touched)" class="alert alert-danger">
+            <div *ngIf="confirmpassword.errors.required"> Confirm password is required. </div>
+            <div *ngIf="confirmpassword.errors.pattern"> Password & Confirm Password does not match.</div>
+          </div>
+         </div>
+
       <button type="submit" class="btn btn-success">Save User</button>
-    </form>
-  
-    <br>
-    <td><button (click)="backPage()" class="btn btn-dark">Back Page</button></td>
+      <button (click)="backPage()" style="margin-left: 10px;" class="btn btn-dark">Back Page</button>
+      </form>
   </div>
+

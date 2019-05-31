@@ -15,6 +15,7 @@
 
     <ul class="navbar-nav navbar-collapse justify-content-end">
         <li><a *ngIf="!basicAuthenticationService.isUserLoggedIn()" routerLink="/login" class="nav-link">Login</a></li>
+        <li><a *ngIf="!basicAuthenticationService.isUserLoggedIn()" routerLink="/sign_in" class="nav-link">Sign In</a></li>
         <li><a *ngIf="basicAuthenticationService.isUserLoggedIn()" routerLink="/logout" class="nav-link">Logout</a></li>
     </ul>
     

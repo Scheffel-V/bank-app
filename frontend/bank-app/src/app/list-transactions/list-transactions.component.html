@@ -20,7 +20,7 @@
         <td>{{transaction.destinyAccount.id}}</td>
         <td>{{transaction.state}}</td>
         <td><button (click)="deleteTransaction(transaction.id)" class="btn btn-warning">Delete</button></td>
-        <td><button (click)="updateTransaction(transaction.id)" class="btn btn-success">Update</button></td>
+        <td><button *ngIf="transaction.state == 'STARTED'" (click)="updateTransaction(transaction.id)" class="btn btn-success">Update</button></td>
       </tr>
     </tbody>
   </table>

@@ -32,18 +32,19 @@ export class TransactionComponent implements OnInit {
   accounts : Account[]
   transaction : Transaction
   destinyAccountId : string
-  selectedValue : string
+  selectedValue : string = ""
+  originAccountId : string
 
   constructor(
     private accountService : AccountDataService,
     private transactionService : TransactionDataService,
     private basicAuthService : BasicAuthenticationService,
     private activatedRoute : ActivatedRoute,
-    private router : Router,
     private location : Location
     ) { }
 
   ngOnInit() {
+    this.originAccountId = this.activatedRoute.snapshot.params['accountId']
     this.accountService.getAllAccounts().subscribe(
       data => {
         this.accounts = data
@@ -66,29 +67,38 @@ export class TransactionComponent implements OnInit {
   }
 
   saveTransaction() {
-    console.log(this.selectedValue)
-    this.transaction.destinyAccount.id = +this.selectedValue
-    if(+this.id == -1) {
-      this.transactionService.createTransaction(
-        this.basicAuthService.getAuthenticatedUserId(),
-        this.activatedRoute.snapshot.params['accountId'],
-        this.transaction
-        ).subscribe(
-        data => {
-          this.location.back()
-        }
-      )
-    } else {
-      this.transactionService.updateTransaction(
-        this.basicAuthService.getAuthenticatedUserId(),
-        this.activatedRoute.snapshot.params['accountId'],
-        this.id,
-        this.transaction
-        ).subscribe(
-        data => {
-          this.location.back()
-        }
-      )
+    if(this.originAccountId != this.selectedValue) {
+      this.transaction.destinyAccount.id = +this.selectedValue
+      if(+this.id == -1) {
+        this.transactionService.createTransaction(
+          this.basicAuthService.getAuthenticatedUserId(),
+          this.activatedRoute.snapshot.params['accountId'],
+          this.transaction
+          ).subscribe(
+          data => {
+            this.location.back()
+          }
+        )
+      } else {
+        this.transactionService.updateTransaction(
+          this.basicAuthService.getAuthenticatedUserId(),
+          this.activatedRoute.snapshot.params['accountId'],
+          this.id,
+          this.transaction
+          ).subscribe(
+          data => {
+            this.location.back()
+          }
+        )
+      }
     }
+  }
+
+  getOriginAccountId() {
+    return this.activatedRoute.snapshot.params['accountId']
+  }
+
+  backPage() {
+    this.location.back()
   }
 }
