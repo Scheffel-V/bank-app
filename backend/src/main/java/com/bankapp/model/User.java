@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -33,6 +36,7 @@ public class User {
 	
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Account> accounts;
 
 	public User() {

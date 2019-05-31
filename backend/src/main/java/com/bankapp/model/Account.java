@@ -46,11 +46,11 @@ public class Account {
 		
 	}
 	
-	public Account(long id, double amount, User user) {
+	public Account(long id, double amount, List<Transaction> transactions) {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.user = user;
+		this.transactions = transactions;
 	}
 
 	public Long getId() {

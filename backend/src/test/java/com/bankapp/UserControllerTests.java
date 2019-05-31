@@ -76,6 +76,7 @@ public class UserControllerTests {
 		.andExpect(status().isUnauthorized());
 	}
 	
+	
 	@Test
 	public void postUserTest() throws Exception {
 		this.contextLoads();
@@ -99,12 +100,15 @@ public class UserControllerTests {
 		Assert.isTrue(username.equals(this.postUserUsername), "User username is wrong.");
 		Assert.isTrue(password.equals(this.postUserPassword), "User password is wrong.");
 		Assert.isTrue(accounts.isEmpty(), "User accounts are wrong.");
-	}
+	} 
 	
 	@Test
 	public void getTokenTest() throws Exception {
 		this.contextLoads();
-		String body = firstUserJson;
+		String userJson = "{\"username\":\"" + "testUsername" + "\", \"password\":\""
+		    	 + "testPassword" + "\"}";
+		
+		String body = userJson;
 		
 	    MvcResult result = mvc.perform(
 	    		MockMvcRequestBuilders.post("/authenticate")
@@ -113,10 +117,15 @@ public class UserControllerTests {
 	            )
 	            .andExpect(status().isOk())
 	            .andReturn();
-
+	    
+	    //System.out.println("\n\n\n\n\n\n\nRESULTADO:");
+	    //System.out.println(result.getResponse().getContentAsString());
+	    
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
 
+	    //System.out.println("\n\n\n\n\n\n\nTOKEN:");
+	    //System.out.println(token);
 	    mvc.perform(MockMvcRequestBuilders.get(apiUrl + "/users")
 	        .header("Authorization", "Bearer " + token))
 	        .andExpect(status().isOk());
@@ -137,8 +146,6 @@ public class UserControllerTests {
 
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
-
-		System.out.println(token);
 		
 		body = postUserJson;
 		result = mvc.perform(
@@ -158,7 +165,7 @@ public class UserControllerTests {
 		Assert.isTrue(id == userArray.get(0).getId(), "User id is wrong.");
 		Assert.isTrue(username.equals(userArray.get(0).getUsername()), "User username is wrong.");
 		Assert.isTrue(password.equals(userArray.get(0).getPassword()), "User password is wrong.");
-		Assert.isTrue(accounts.isEmpty(), "User accounts are wrong.");
+		Assert.isTrue(!accounts.isEmpty(), "User accounts are wrong.");
 	} 
 		
 	@Test
@@ -201,7 +208,8 @@ public class UserControllerTests {
 		Assert.isTrue(id == userArray.get(1).getId(), "User id is wrong.");
 		Assert.isTrue(username.equals(userArray.get(1).getUsername()), "User updated username is wrong.");
 		Assert.isTrue(password.equals(userArray.get(1).getPassword()), "User updated password is wrong.");
-		Assert.isTrue(accounts.isEmpty(), "User accounts are wrong.");
+		Assert.isTrue(!accounts.isEmpty(), "User accounts are wrong : " + accounts);
+		
 	}	
 	
 	@Test
@@ -239,11 +247,14 @@ public class UserControllerTests {
 	
 	
 	public String parseToken(String jsonToken) {
-	    jsonToken = jsonToken.replace("token", "");
-	    jsonToken = jsonToken.replace("}", "");
-	    jsonToken = jsonToken.replace("{", "");
-	    jsonToken = jsonToken.replace("\"", "");
-	    jsonToken = jsonToken.replace(":", "");
-	    return jsonToken;	
+		String token = jsonToken.substring(0, jsonToken.indexOf(','));
+		token = token.replace("token", "");
+		token = token.replace("}", "");
+		token = token.replace("{", "");
+		token = token.replace("\"", "");
+		token = token.replace("[", "");
+		token = token.replace("]", "");
+		token = token.replace(":", "");
+	    return token;	
 	}
 }
