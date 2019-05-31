@@ -57,7 +57,6 @@ public class JwtAuthenticationRestController {
 
     final String token = jwtTokenUtil.generateToken(userDetails);
     User user = this.userService.getUserByUsername(authenticationRequest.getUsername());
-    System.out.println("\n\n\n\n\n\n\n\nMANDANDO O TOKEN PORRA");
     return ResponseEntity.ok("[{\"token\":\"" + token + "\"}," + mapper.writeValueAsString(user) + "]");
   }
 

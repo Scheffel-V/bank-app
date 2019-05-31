@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.bankapp.View;
 import com.bankapp.model.Account;
 import com.bankapp.model.Transaction;
+import com.bankapp.model.TransactionState;
 import com.bankapp.service.AccountService;
 import com.bankapp.service.TransactionService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -45,7 +46,7 @@ public class TransactionController {
 	public List<Transaction> getAllTransactions() {
 		return transactionService.getAllTransactions();
 	}
-	
+		
 	@JsonView(View.Summary.class)
 	@GetMapping("/users/{userId}/accounts/{accountId}/transactions")
 	public List<Transaction> getAllTransactionsByAccountId(@PathVariable long accountId) {
@@ -85,9 +86,13 @@ public class TransactionController {
 	}
 	
 	@PutMapping("/users/{userId}/accounts/{accountId}/transactions/{transactionId}")
-	public ResponseEntity<Transaction> updateTransaction(@Valid @RequestBody Transaction transactionUpdated, @PathVariable long transactionId) {
+	public ResponseEntity<Transaction> updateTransaction(@Valid @RequestBody Transaction transactionUpdated, @PathVariable long transactionId, @PathVariable long accountId) {
 		try {
 			Account newDestinyAccount = accountService.getAccount(transactionUpdated.getDestinyAccount().getId());
+			Account originAccount = accountService.getAccount(accountId);
+			if(originAccount.getId().equals(newDestinyAccount.getId())) {
+				return ResponseEntity.notFound().build();
+			}
 			Transaction transaction = transactionService.getTransaction(transactionId);
 			transaction.setDestinyAccount(newDestinyAccount);
 			transaction.setAmount(transactionUpdated.getAmount());

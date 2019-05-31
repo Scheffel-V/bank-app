@@ -39,11 +39,13 @@ public class Transaction {
 	@JsonView(View.Summary.class)
 	@ManyToOne
 	@JoinColumn(name = "origin_account_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account originAccount;
 	
 	@JsonView(View.Summary.class)
 	@ManyToOne
 	@JoinColumn(name = "destiny_account_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account destinyAccount;
 
 	@JsonView(View.Summary.class)
