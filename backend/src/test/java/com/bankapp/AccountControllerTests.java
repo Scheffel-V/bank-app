@@ -44,7 +44,7 @@ public class AccountControllerTests {
 	
 	@Test
 	public void unauthorizedPostAccountTest() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get(apiUrl + "/users/1/accounts"))
+		mvc.perform(MockMvcRequestBuilders.post(apiUrl + "/users/1/accounts"))
 		.andExpect(status().isUnauthorized());
 	}
 	
@@ -56,7 +56,7 @@ public class AccountControllerTests {
 	
 	@Test
 	public void unauthorizedGetAllAccountsTest() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get(apiUrl + "/users/1/accounts"))
+		mvc.perform(MockMvcRequestBuilders.get(apiUrl + "/accounts"))
 		.andExpect(status().isUnauthorized());
 	}
 	
@@ -156,6 +156,86 @@ public class AccountControllerTests {
 		Assert.isTrue(id == this.account.getId(), "Account id is wrong.");
 		Assert.isTrue(amount == this.account.getAmount(), "Account amount is wrong.");
 		Assert.isTrue(!transactions.isEmpty(), "Account transactions are wrong.");
+	}
+	
+	@Test
+	public void putAccountTest() throws Exception {
+		this.contextLoads();
+		ObjectMapper mapper = new ObjectMapper();
+	
+		String body = mapper.writeValueAsString(this.user);
+		
+	    MvcResult result = mvc.perform(
+	    		MockMvcRequestBuilders.post("/authenticate")
+	    		.contentType(MediaType.APPLICATION_JSON_UTF8)
+	            .content(body)
+	            )
+	            .andExpect(status().isOk())
+	            .andReturn();
+
+	    String response = result.getResponse().getContentAsString();
+	    String token = this.parseToken(response);
+		
+	    System.out.println("\n\n\n\n\n\n\n\nTOKEN:");
+	    System.out.println(token);
+	    
+	    Account updatedAccount = this.accounts.get(0);
+	    updatedAccount.setAmount(12345);
+	    
+		String accountJson = mapper.writeValueAsString(updatedAccount);
+		System.out.println("ACOUNT JSON:");
+		System.out.println(accountJson);
+		result = mvc.perform(
+				MockMvcRequestBuilders.put(apiUrl + "/users/1/accounts/2")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(accountJson)
+				)
+		.andExpect(status().isOk())
+		.andReturn();
+		
+		System.out.println("\n\n\n\n\n\n\n\nRESULTADO AQUII!");
+		System.out.println(result.getResponse().getContentAsString());
+		String stringResponse = result.getResponse().getContentAsString();
+		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
+		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
+		List<Transaction> transactions = new ArrayList<Transaction>();
+		transactions = JsonPath.parse(stringResponse).read("transactions", transactions.getClass());
+		
+		Assert.isTrue(amount == updatedAccount.getAmount(), "Account amount is wrong.");
+	}
+	
+	@Test
+	public void deleteUserAccount() throws Exception {
+		this.contextLoads();
+		ObjectMapper mapper = new ObjectMapper();
+	
+		String body = mapper.writeValueAsString(this.user);
+		
+	    MvcResult result = mvc.perform(
+	    		MockMvcRequestBuilders.post("/authenticate")
+	    		.contentType(MediaType.APPLICATION_JSON_UTF8)
+	            .content(body)
+	            )
+	            .andExpect(status().isOk())
+	            .andReturn();
+
+	    String response = result.getResponse().getContentAsString();
+	    String token = this.parseToken(response);
+	    
+	    result = mvc.perform(
+				MockMvcRequestBuilders.delete(apiUrl + "/users/1/accounts/3")
+				.header("Authorization", "Bearer " + token)
+				)
+		.andExpect(status().isNoContent())
+		.andReturn();
+	    
+		result = mvc.perform(
+				MockMvcRequestBuilders.get(apiUrl + "/users/1/accounts/3")
+				.header("Authorization", "Bearer " + token)
+				)
+		.andExpect(status().isNotFound())
+		.andReturn();
 	}
 	
 	public String parseToken(String jsonToken) {

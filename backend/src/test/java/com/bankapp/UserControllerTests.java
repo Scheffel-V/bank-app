@@ -238,8 +238,6 @@ public class UserControllerTests {
 		result = mvc.perform(
 				MockMvcRequestBuilders.get(apiUrl + "/users/" + userArray.get(2).getId())
 				.header("Authorization", "Bearer " + token)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(body)
 				)
 		.andExpect(status().isNotFound())
 		.andReturn();

@@ -14,10 +14,13 @@ insert into accounts
 values(2, 1000, 1);
 
 insert into accounts
-values(3, 2347, 2);
+values(3, 1000, 1);
 
 insert into accounts
-values(4, 100, 3);
+values(4, 2347, 2);
+
+insert into accounts
+values(5, 100, 3);
 
 insert into transactions
 values(1, 100, 'STARTED', 2, 1);
