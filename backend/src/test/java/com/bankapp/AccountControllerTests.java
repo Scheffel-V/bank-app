@@ -76,7 +76,6 @@ public class AccountControllerTests {
 	public void postAccountTest() throws Exception {
 		this.contextLoads();
 		ObjectMapper mapper = new ObjectMapper();
-	
 		String body = mapper.writeValueAsString(this.user);
 		
 	    MvcResult result = mvc.perform(
@@ -89,13 +88,8 @@ public class AccountControllerTests {
 
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
-		
-	    System.out.println("\n\n\n\n\n\n\n\nTOKEN:");
-	    System.out.println(token);
-	    
 		String accountJson = mapper.writeValueAsString(this.accounts.get(0));
-		System.out.println("ACOUNT JSON:");
-		System.out.println(accountJson);
+
 		result = mvc.perform(
 				MockMvcRequestBuilders.post(apiUrl + "/users/1/accounts")
 				.header("Authorization", "Bearer " + token)
@@ -104,9 +98,7 @@ public class AccountControllerTests {
 				)
 		.andExpect(status().isCreated())
 		.andReturn();
-		
-		System.out.println("\n\n\n\n\n\n\n\nRESULTADO AQUII!");
-		System.out.println(result.getResponse().getContentAsString());
+
 		String stringResponse = result.getResponse().getContentAsString();
 		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
 		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
@@ -122,7 +114,6 @@ public class AccountControllerTests {
 	public void getAccountTest() throws Exception {
 		this.contextLoads();
 		ObjectMapper mapper = new ObjectMapper();
-	
 		String body = mapper.writeValueAsString(this.user);
 		
 	    MvcResult result = mvc.perform(
@@ -135,7 +126,6 @@ public class AccountControllerTests {
 
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
-		
 		String accountJson = mapper.writeValueAsString(this.accounts.get(0));
 
 		result = mvc.perform(
@@ -145,8 +135,6 @@ public class AccountControllerTests {
 		.andExpect(status().isOk())
 		.andReturn();
 		
-		System.out.println("\n\n\n\n\n\n\n\nRESULTADO AQUII!");
-		System.out.println(result.getResponse().getContentAsString());
 		String stringResponse = result.getResponse().getContentAsString();
 		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
 		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
@@ -162,7 +150,6 @@ public class AccountControllerTests {
 	public void putAccountTest() throws Exception {
 		this.contextLoads();
 		ObjectMapper mapper = new ObjectMapper();
-	
 		String body = mapper.writeValueAsString(this.user);
 		
 	    MvcResult result = mvc.perform(
@@ -175,16 +162,11 @@ public class AccountControllerTests {
 
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
-		
-	    System.out.println("\n\n\n\n\n\n\n\nTOKEN:");
-	    System.out.println(token);
-	    
 	    Account updatedAccount = this.accounts.get(0);
 	    updatedAccount.setAmount(12345);
 	    
 		String accountJson = mapper.writeValueAsString(updatedAccount);
-		System.out.println("ACOUNT JSON:");
-		System.out.println(accountJson);
+
 		result = mvc.perform(
 				MockMvcRequestBuilders.put(apiUrl + "/users/1/accounts/2")
 				.header("Authorization", "Bearer " + token)
@@ -193,9 +175,7 @@ public class AccountControllerTests {
 				)
 		.andExpect(status().isOk())
 		.andReturn();
-		
-		System.out.println("\n\n\n\n\n\n\n\nRESULTADO AQUII!");
-		System.out.println(result.getResponse().getContentAsString());
+
 		String stringResponse = result.getResponse().getContentAsString();
 		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
 		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
@@ -206,10 +186,9 @@ public class AccountControllerTests {
 	}
 	
 	@Test
-	public void deleteUserAccount() throws Exception {
+	public void deleteAccountTest() throws Exception {
 		this.contextLoads();
 		ObjectMapper mapper = new ObjectMapper();
-	
 		String body = mapper.writeValueAsString(this.user);
 		
 	    MvcResult result = mvc.perform(

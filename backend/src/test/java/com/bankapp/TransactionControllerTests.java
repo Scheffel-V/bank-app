@@ -42,6 +42,7 @@ public class TransactionControllerTests {
 	@Test
 	public void contextLoads() {
 		this.accounts.add(new Account(-1, 1000, new ArrayList<Transaction>()));
+		this.accounts.add(new Account(2, 1000, new ArrayList<Transaction>()));
 		this.transactions.add(new Transaction(-1, 1000, new Account(1, 1000, new ArrayList<Transaction>()), new Account(2, 1000, new ArrayList<Transaction>()), TransactionState.STARTED));
 	}
 	
@@ -92,9 +93,6 @@ public class TransactionControllerTests {
 
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
-		
-	    System.out.println("\n\n\n\n\n\n\n\nTOKEN:");
-	    System.out.println(token);
 	    
 		String transactionJson = mapper.writeValueAsString(this.transactions.get(0));
 		result = mvc.perform(
@@ -105,9 +103,7 @@ public class TransactionControllerTests {
 				)
 		.andExpect(status().isCreated())
 		.andReturn();
-		
-		System.out.println("\n\n\n\n\n\n\n\nRESULTADO AQUII!");
-		System.out.println(result.getResponse().getContentAsString());
+
 		String stringResponse = result.getResponse().getContentAsString();
 		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
 		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
@@ -120,6 +116,41 @@ public class TransactionControllerTests {
 	
 	@Test
 	public void getTransactionTest() throws Exception {
+		this.contextLoads();
+		ObjectMapper mapper = new ObjectMapper();
+		String body = mapper.writeValueAsString(this.user);
+		
+	    MvcResult result = mvc.perform(
+	    		MockMvcRequestBuilders.post("/authenticate")
+	    		.contentType(MediaType.APPLICATION_JSON_UTF8)
+	            .content(body)
+	            )
+	            .andExpect(status().isOk())
+	            .andReturn();
+
+	    String response = result.getResponse().getContentAsString();
+	    String token = this.parseToken(response);
+		String accountJson = mapper.writeValueAsString(this.transactions.get(0));
+
+		result = mvc.perform(
+				MockMvcRequestBuilders.get(apiUrl + "/users/1/accounts/1/transactions/1")
+				.header("Authorization", "Bearer " + token)
+				)
+		.andExpect(status().isOk())
+		.andReturn();
+
+		String stringResponse = result.getResponse().getContentAsString();
+		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
+		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
+		Account destinyAccount = JsonPath.parse(stringResponse).read("destinyAccount", Account.class);
+		
+		Assert.isTrue(id == this.transaction.getId(), "Transaction id is wrong.");
+		Assert.isTrue(amount == this.transaction.getAmount(), "Transaction amount is wrong.");
+		Assert.isTrue(this.transaction.getDestinyAccount().getId().equals(destinyAccount.getId()), "Transaction destiny account is wrong.");
+	}
+	
+	@Test
+	public void putTransactionTest() throws Exception {
 		this.contextLoads();
 		ObjectMapper mapper = new ObjectMapper();
 	
@@ -135,26 +166,61 @@ public class TransactionControllerTests {
 
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
+	    
+	    Transaction updatedTransaction = this.transactions.get(0);
+	    updatedTransaction.setAmount(12345);
+	    updatedTransaction.setState(TransactionState.FINISHED);
+	    updatedTransaction.setDestinyAccount(this.accounts.get(1));
+	    
+		String transactionJson = mapper.writeValueAsString(updatedTransaction);
 		
-		String accountJson = mapper.writeValueAsString(this.transactions.get(0));
-
 		result = mvc.perform(
-				MockMvcRequestBuilders.get(apiUrl + "/users/1/accounts/1/transactions/1")
+				MockMvcRequestBuilders.put(apiUrl + "/users/1/accounts/1/transactions/2")
 				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(transactionJson)
 				)
 		.andExpect(status().isOk())
 		.andReturn();
-		
-		System.out.println("\n\n\n\n\n\n\n\nRESULTADO AQUII!");
-		System.out.println(result.getResponse().getContentAsString());
+
 		String stringResponse = result.getResponse().getContentAsString();
-		Long id = JsonPath.parse(stringResponse).read("id", Long.class);
 		Long amount = JsonPath.parse(stringResponse).read("amount", Long.class);
 		Account destinyAccount = JsonPath.parse(stringResponse).read("destinyAccount", Account.class);
 		
-		Assert.isTrue(id == this.transaction.getId(), "Transaction id is wrong.");
-		Assert.isTrue(amount == this.transaction.getAmount(), "Transaction amount is wrong.");
-		Assert.isTrue(this.transaction.getDestinyAccount().getId().equals(destinyAccount.getId()), "Transaction destiny account is wrong.");
+		Assert.isTrue(amount == updatedTransaction.getAmount(), "Transaction amount is wrong.");
+		//Assert.isTrue(destinyAccount.getId().equals(updatedTransaction.getDestinyAccount().getId()), "Transaction destiny account is wrong.");
+	}
+	
+	@Test
+	public void deleteTransactionTest() throws Exception {
+		this.contextLoads();
+		ObjectMapper mapper = new ObjectMapper();
+		String body = mapper.writeValueAsString(this.user);
+		
+	    MvcResult result = mvc.perform(
+	    		MockMvcRequestBuilders.post("/authenticate")
+	    		.contentType(MediaType.APPLICATION_JSON_UTF8)
+	            .content(body)
+	            )
+	            .andExpect(status().isOk())
+	            .andReturn();
+
+	    String response = result.getResponse().getContentAsString();
+	    String token = this.parseToken(response);
+	    
+	    result = mvc.perform(
+				MockMvcRequestBuilders.delete(apiUrl + "/users/1/accounts/1/transactions/2")
+				.header("Authorization", "Bearer " + token)
+				)
+		.andExpect(status().isNoContent())
+		.andReturn();
+	    
+		result = mvc.perform(
+				MockMvcRequestBuilders.get(apiUrl + "/users/1/accounts/1/transactions/2")
+				.header("Authorization", "Bearer " + token)
+				)
+		.andExpect(status().isNotFound())
+		.andReturn();
 	}
 	
 	public String parseToken(String jsonToken) {

@@ -118,14 +118,9 @@ public class UserControllerTests {
 	            .andExpect(status().isOk())
 	            .andReturn();
 	    
-	    //System.out.println("\n\n\n\n\n\n\nRESULTADO:");
-	    //System.out.println(result.getResponse().getContentAsString());
-	    
 	    String response = result.getResponse().getContentAsString();
 	    String token = this.parseToken(response);
 
-	    //System.out.println("\n\n\n\n\n\n\nTOKEN:");
-	    //System.out.println(token);
 	    mvc.perform(MockMvcRequestBuilders.get(apiUrl + "/users")
 	        .header("Authorization", "Bearer " + token))
 	        .andExpect(status().isOk());
@@ -187,8 +182,7 @@ public class UserControllerTests {
 		body = secondUserJson;
 		body.replace(userArray.get(1).getUsername(), "testUsernameUpdated");
 		body.replace(userArray.get(1).getPassword(), "testPasswordUpdated");
-		
-		System.out.println(token);
+
 		result = mvc.perform(
 				MockMvcRequestBuilders.put(apiUrl + "/users/" + userArray.get(1).getId())
 				.header("Authorization", "Bearer " + token)
