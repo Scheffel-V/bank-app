@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { BasicAuthenticationService } from '../service/basic-authentication.service';
 
 @Component({
   selector: 'app-welcome',
@@ -11,12 +12,12 @@ export class WelcomeComponent implements OnInit {
   username : string = ''
   welcomeMessageFromService : string
   constructor(
-    private route : ActivatedRoute,
-    private router : Router
+    private router : Router,
+    private basicAuthService : BasicAuthenticationService
     ) { }
 
   ngOnInit() {
-    this.username = this.route.snapshot.params['username']
+    this.username = this.basicAuthService.getAuthenticatedUserUsername()
   }
 
   manageAccounts() {

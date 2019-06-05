@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   handleBasicAuthLogin() {
     this.basicAuthenticationService.executeJWTAuthenticationService(this.user.username, this.user.password).subscribe(
       data => {
-        this.router.navigate(['welcome', this.user.username])
+        this.router.navigate(['welcome'])
         this.invalidLogin = false
       },
       error => {

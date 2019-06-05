@@ -33,8 +33,9 @@ export class BasicAuthenticationService {
   }
 
   logout() {
-    sessionStorage.removeItem(AUTHENTICATED_USER_USERNAME)
     sessionStorage.removeItem(AUTHENTICATED_USER_ID)
+    sessionStorage.removeItem(AUTHENTICATED_USER_USERNAME)
+    sessionStorage.removeItem(AUTHENTICATED_TOKEN)
   }
 
   isUserLoggedIn() {
@@ -44,6 +45,10 @@ export class BasicAuthenticationService {
 
   getAuthenticatedUserId() {
     return sessionStorage.getItem(AUTHENTICATED_USER_ID)
+  }
+
+  getAuthenticatedUserUsername() {
+    return sessionStorage.getItem(AUTHENTICATED_USER_USERNAME)
   }
 
   getAuthenticatedToken() {
