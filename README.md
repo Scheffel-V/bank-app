@@ -10,7 +10,7 @@ The API documentation can be found here:
 The frontend was developed using **Angular 7**.
 
 ### Comments
-POST requests return in the message header the "Location" attribute, which is the address of the entity just created. GET, PUT, and DELETE requests, when they can not find the object with the ID, return a "404 Not Found". All requests, except for "POST" in "authenticate" and "users" are protected by an authentication system that uses JWT.
+There is three Users already created in the database, with Accounts and Transactions. You can log in with "testUsername" and "testPassword", or create a new User. POST requests return in the message header the "Location" attribute, which is the address of the entity just created. GET, PUT, and DELETE requests, when they can not find the object with the ID, return a "404 Not Found". All requests, except for "POST" in "authenticate" and "users" are protected by an authentication system that uses JWT.
 
 ### Todo
 It is still possible to improve the system, such as taking care of circular references in objects, so that their respective JSONs are not so large. The updates of the objects through the PUT method are not complete, and do not update all the attributes of the object, only the essential ones, and this could be done. In addition, the frontend logic can be improved to access the backend less often. It is also possible to make the frontend more beautiful, readable and functional.
@@ -37,5 +37,5 @@ ng serve
 ```
 The frontend server will be running on: 
 ```
-*http://127.0.0.1:4200/*
+http://127.0.0.1:4200/
 ```
